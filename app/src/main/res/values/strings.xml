@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AvazDemoDeveloperProject</string>
+    <string name="tell_us_about_yourself">Tell us about yourself</string>
+    <string name="what_do_you_like_to_eat">What do you like to eat</string>
 </resources>
