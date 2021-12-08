@@ -18,5 +18,7 @@
     <string name="pizza">Pizza</string>
     <string name="soup">Soup</string>
     <string name="sushi">Sushi</string>
+    <string name="save">Save</string>
+    <string name="bottom_sheet_label">What do you want to add</string>
 
 </resources>

@@ -42,7 +42,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
 
     public void updateDishList(final List<DishModel> dishModelList) {
         this.dishArrayList.addAll(dishModelList);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(getItemCount(), dishModelList.size());
     }
 
     public class Viewholder extends RecyclerView.ViewHolder{

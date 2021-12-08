@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.avaz.demodeveloperproject.R;
 import com.avaz.demodeveloperproject.databinding.FragmentMainBinding;
+import com.avaz.demodeveloperproject.decorators.MarginItemDecorator;
 import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.utility.DishAdapter;
 
@@ -54,7 +55,17 @@ public class MainFragment extends Fragment {
         rvDefault = binding.rvDefaultList;
 
         setupDefaultList();
+        setupAddNewBtn();
 
+
+    }
+
+    private void setupAddNewBtn() {
+
+        binding.llAdd.setOnClickListener(v ->{
+            AddNewDialogFragment fragment = AddNewDialogFragment.newInstance();
+            fragment.show(getChildFragmentManager(), fragment.getTag());
+        });
 
     }
 
@@ -62,6 +73,7 @@ public class MainFragment extends Fragment {
 
         DishAdapter defaultAdapter = new DishAdapter(true);
         rvDefault.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvDefault.addItemDecoration(new MarginItemDecorator(getContext().getResources().getDimensionPixelOffset(R.dimen.card_margin)));
 
         intiDefaultDishesValue();
 
