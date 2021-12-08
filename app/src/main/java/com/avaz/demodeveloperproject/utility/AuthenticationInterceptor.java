@@ -1,5 +1,7 @@
 package com.avaz.demodeveloperproject.utility;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -9,12 +11,13 @@ import okhttp3.Response;
 public class AuthenticationInterceptor implements Interceptor {
 
 
-    private String authToken;
+    private final String authToken;
 
     public AuthenticationInterceptor(String authToken) {
         this.authToken = authToken;
     }
 
+    @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
 

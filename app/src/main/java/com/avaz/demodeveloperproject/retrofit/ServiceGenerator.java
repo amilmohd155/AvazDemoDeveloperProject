@@ -2,6 +2,7 @@ package com.avaz.demodeveloperproject.retrofit;
 
 import android.text.TextUtils;
 
+import com.avaz.demodeveloperproject.BuildConfig;
 import com.avaz.demodeveloperproject.utility.AuthenticationInterceptor;
 
 import okhttp3.Credentials;
@@ -11,7 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    private static final String BASE_URL = "http://api.thenounproject.com/icons/";
+    private static final String BASE_URL = BuildConfig.NOUN_PROJECT_BASE_API_URL;
+
+    private static String authToken;
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -31,7 +34,7 @@ public class ServiceGenerator {
 
         if (!TextUtils.isEmpty(clientID)
                 && !TextUtils.isEmpty(clientSecret)) {
-            String authToken = Credentials.basic(clientID, clientSecret);
+            authToken = Credentials.basic(clientID, clientSecret);
             return createService(serviceClass, authToken);
         }
 
@@ -54,4 +57,7 @@ public class ServiceGenerator {
 
     }
 
+    public static String getAuthToken() {
+        return authToken;
+    }
 }

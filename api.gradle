@@ -1,0 +1,7 @@
+ext {
+    NOUN_PROJECT_BASE_API_URL = "http://api.thenounproject.com/"
+
+    //Noun Project Key and Secret Code
+    API_KEY = "dcfd49d05d734c859c1c09b1dd885ced"
+    SECRET_API_KEY = "399164a39a6d4a0fbc6922a45e74b1ca"
+}
