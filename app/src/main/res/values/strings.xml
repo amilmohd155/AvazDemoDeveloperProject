@@ -6,4 +6,17 @@
     <string name="add_your_own">Add your own</string>
     <string name="new_str">New</string>
     <string name="continue_str">Continue</string>
+
+    <!--  Default Dishes  -->
+    <string name="apple">Apple</string>
+    <string name="burger">Burger</string>
+    <string name="cake">Cake</string>
+    <string name="dimsum">Dimsum</string>
+    <string name="dosa">Dosa</string>
+    <string name="ice_cream">Ice Cream</string>
+    <string name="pancake">Pancake</string>
+    <string name="pizza">Pizza</string>
+    <string name="soup">Soup</string>
+    <string name="sushi">Sushi</string>
+
 </resources>
