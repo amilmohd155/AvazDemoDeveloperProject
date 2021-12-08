@@ -70,16 +70,60 @@ public class MainFragment extends Fragment {
         rvDefault.setAdapter(defaultAdapter);
     }
 
-    private void intiDefaultDishesValue(){
+    private void intiDefaultDishesValue() {
 
         defaultDishes = new ArrayList<>();
 
         defaultDishes.add(new DishModel(
-                R.drawable.ic_apple,
-                getContext().getResources().getString(R.string.apple)
+                        R.drawable.ic_apple,
+                        getContext().getResources().getString(R.string.apple)
                 )
         );
-
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_burger,
+                        getContext().getResources().getString(R.string.burger)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_cake,
+                        getContext().getResources().getString(R.string.cake)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_dimsum,
+                        getContext().getResources().getString(R.string.dimsum)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_dosa,
+                        getContext().getResources().getString(R.string.dosa)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_ice_cream,
+                        getContext().getResources().getString(R.string.ice_cream)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_pancake,
+                        getContext().getResources().getString(R.string.pancake)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_pizza,
+                        getContext().getResources().getString(R.string.pizza)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_soup,
+                        getContext().getResources().getString(R.string.soup)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_sushi,
+                        getContext().getResources().getString(R.string.sushi)
+                )
+        );
     }
 
     @Override
