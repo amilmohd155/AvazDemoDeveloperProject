@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.avaz.demodeveloperproject.databinding.LayoutDishImageItemBinding;
+import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.model.Icon;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class DishImageAdapter extends RecyclerView.Adapter<DishImageAdapter.ViewHolder> {
 
-    private ArrayList<Icon> icons;
+    private ArrayList<DishModel> icons;
 
     public DishImageAdapter() {
         icons = new ArrayList<>();

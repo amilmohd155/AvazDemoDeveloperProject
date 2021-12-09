@@ -9,14 +9,19 @@
         <variable
             name="isDefault"
             type="boolean" />
+        <variable
+            name="isFinalList"
+            type="boolean" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="@{isFinalList, default = wrap_content}"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_margin">
 
         <com.google.android.material.card.MaterialCardView
+            android:visibility="@{isFinalList ? View.GONE : View.VISIBLE}"
             android:id="@+id/cv_item"
             android:layout_width="@dimen/card_view_size"
             android:layout_height="@dimen/card_view_size"
@@ -26,7 +31,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/black"
-            app:strokeWidth="@dimen/card_view_stroke_width">
+            app:strokeWidth="@dimen/card_view_stroke_width"
+            android:checkable="true">
 
             <ImageView
                 android:id="@+id/iv_item_image"
@@ -43,21 +49,15 @@
             android:id="@+id/tv_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:padding="10dp"
             android:text="@{model.name}"
             android:textSize="@dimen/text_size1"
-            app:layout_constraintEnd_toEndOf="@+id/cv_item"
-            app:layout_constraintStart_toStartOf="@+id/cv_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv_item" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/selection_icon"
-            app:layout_constraintStart_toStartOf="@+id/cv_item"
-            app:layout_constraintTop_toTopOf="@+id/cv_item" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

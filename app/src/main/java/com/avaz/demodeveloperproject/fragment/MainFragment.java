@@ -8,23 +8,32 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.avaz.demodeveloperproject.R;
 import com.avaz.demodeveloperproject.databinding.FragmentMainBinding;
 import com.avaz.demodeveloperproject.decorators.MarginItemDecorator;
 import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.utility.DishAdapter;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
 
+    private static final String TAG = "MainFragment";
+
     private FragmentMainBinding binding;
     private RecyclerView rvDefault, rvDynamic;
     private ArrayList<DishModel> defaultDishes;
+    private MaterialButton continueButton;
+
+    private ArrayList<DishModel> selectedList;
+    private DishAdapter defaultAdapter;
 
     public MainFragment() {
 
@@ -53,9 +62,34 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rvDefault = binding.rvDefaultList;
+        continueButton = binding.btnContinue;
+        selectedList = new ArrayList<>();
 
         setupDefaultList();
         setupAddNewBtn();
+
+
+        continueButton.setOnClickListener(v -> {
+
+            selectedList.clear();
+            selectedList.addAll(defaultAdapter.getSelected());
+
+            if(selectedList.size() < 3 || selectedList.size() > 5) {
+                
+                //Error message
+                binding.tvError.setVisibility(View.VISIBLE);
+                binding.tvError.setText(getResources().getString(R.string.error_length));
+                
+            }else {
+                //Next screen
+                CompletionFragment fragment = CompletionFragment.newInstance(selectedList);
+                getParentFragmentManager().beginTransaction()
+                        .replace(this.getId(), fragment)
+                        .commit();
+            }
+            
+
+        });
 
 
     }
@@ -71,7 +105,7 @@ public class MainFragment extends Fragment {
 
     private void setupDefaultList() {
 
-        DishAdapter defaultAdapter = new DishAdapter(true);
+        defaultAdapter = new DishAdapter(true);
         rvDefault.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvDefault.addItemDecoration(new MarginItemDecorator(getContext().getResources().getDimensionPixelOffset(R.dimen.card_margin)));
 

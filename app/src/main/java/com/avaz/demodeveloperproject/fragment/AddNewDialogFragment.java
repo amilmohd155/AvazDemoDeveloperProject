@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.avaz.demodeveloperproject.R;
 import com.avaz.demodeveloperproject.databinding.FragmentAddNewDialogBinding;
+import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.model.Icon;
 import com.avaz.demodeveloperproject.model.ResponseModel;
 import com.avaz.demodeveloperproject.utility.DishImageAdapter;
@@ -25,6 +26,7 @@ import com.avaz.demodeveloperproject.viewmodel.DishViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddNewDialogFragment extends BottomSheetDialogFragment {
@@ -38,6 +40,7 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
     private TextInputLayout etOptions;
     private String term;
     private DishImageAdapter adapter;
+    private ArrayList<DishModel> defaultDishes;
 
     public AddNewDialogFragment() {
     }
@@ -102,6 +105,7 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
                     Log.d(TAG, "afterTextChanged: error = " + error);
                 });
 
+                adapter.updateList(defaultDishes);
 //                dishViewModel.getModel().observe(getViewLifecycleOwner(), responseModel ->  {
 //                    List<Icon> icons = responseModel.getIcons();
 //                    adapter.updateList(icons);
@@ -121,6 +125,42 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
 
         rvOptions.setAdapter(adapter);
 
+    }
+
+    private void intiDefaultDishesValue() {
+
+        defaultDishes = new ArrayList<>();
+
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_dimsum,
+                        getContext().getResources().getString(R.string.dimsum)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_dosa,
+                        getContext().getResources().getString(R.string.dosa)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_ice_cream,
+                        getContext().getResources().getString(R.string.ice_cream)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_pancake,
+                        getContext().getResources().getString(R.string.pancake)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_pizza,
+                        getContext().getResources().getString(R.string.pizza)
+                )
+        );
+        defaultDishes.add(new DishModel(
+                        R.drawable.ic_soup,
+                        getContext().getResources().getString(R.string.soup)
+                )
+        );
     }
 
 }

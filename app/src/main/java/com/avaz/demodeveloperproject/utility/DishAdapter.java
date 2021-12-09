@@ -16,6 +16,11 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
 
     private ArrayList<DishModel> dishArrayList;
     private boolean isDefault;
+    private boolean isFinalList;
+
+    public DishAdapter() {
+        dishArrayList = new ArrayList<>();
+    }
 
     public DishAdapter(boolean isDefault) {
         this.isDefault = isDefault;
@@ -32,7 +37,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.bind(dishArrayList.get(position),isDefault);
+        holder.bind(dishArrayList.get(position),isDefault, isFinalList);
     }
 
     @Override
@@ -40,9 +45,24 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
         return dishArrayList.size();
     }
 
+    public void setFinalList(boolean finalList) {
+        isFinalList = finalList;
+    }
+
     public void updateDishList(final List<DishModel> dishModelList) {
         this.dishArrayList.addAll(dishModelList);
         notifyItemRangeInserted(getItemCount(), dishModelList.size());
+    }
+
+    public ArrayList<DishModel> getSelected() {
+        ArrayList<DishModel> selected = new ArrayList<>();
+
+        for (int i = 0; i < dishArrayList.size(); ++i) {
+            if (dishArrayList.get(i).isChecked())
+                selected.add(dishArrayList.get(i));
+            else selected.remove(dishArrayList.get(i));
+        }
+        return selected;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder{
@@ -53,10 +73,20 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
             this.binding = binding;
         }
 
-        public void bind(DishModel model, boolean isDefault) {
+        public void bind(DishModel model, boolean isDefault, boolean isFinalList) {
+
+            binding.cvItem.setChecked(model.isChecked());
+
             binding.setIsDefault(isDefault);
+            binding.setIsFinalList(isFinalList);
             binding.setModel(model);
             binding.executePendingBindings();
+
+            binding.cvItem.setOnClickListener(v -> {
+                model.setChecked(!model.isChecked());
+                binding.cvItem.setChecked(model.isChecked());
+            });
+
         }
 
     }

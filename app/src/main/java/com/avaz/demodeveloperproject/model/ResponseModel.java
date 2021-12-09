@@ -9,13 +9,13 @@ public class ResponseModel {
 
     @SerializedName("icons")
     @Expose
-    private List<Icon> icons = null;
+    private List<DishModel> icons = null;
 
-    public List<Icon> getIcons() {
+    public List<DishModel> getIcons() {
         return icons;
     }
 
-    public void setIcons(List<Icon> icons) {
+    public void setIcons(List<DishModel> icons) {
         this.icons = icons;
     }
 
