@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.avaz.demodeveloperproject.R;
 import com.avaz.demodeveloperproject.databinding.FragmentMainBinding;
@@ -72,7 +70,7 @@ public class MainFragment extends Fragment {
         continueButton.setOnClickListener(v -> {
 
             selectedList.clear();
-            selectedList.addAll(defaultAdapter.getSelected());
+            selectedList.addAll(defaultAdapter.getSelectedList());
 
             if(selectedList.size() < 3 || selectedList.size() > 5) {
                 
@@ -106,6 +104,7 @@ public class MainFragment extends Fragment {
     private void setupDefaultList() {
 
         defaultAdapter = new DishAdapter(true);
+        defaultAdapter.setSelectionMode(DishAdapter.MULTI_SELECTION);
         rvDefault.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rvDefault.addItemDecoration(new MarginItemDecorator(getContext().getResources().getDimensionPixelOffset(R.dimen.card_margin)));
 

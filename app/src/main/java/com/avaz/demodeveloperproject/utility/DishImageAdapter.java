@@ -43,7 +43,7 @@ public class DishImageAdapter extends RecyclerView.Adapter<DishImageAdapter.View
         return icons.size();
     }
 
-    public void updateList(final List<Icon> icons) {
+    public void updateList(final List<DishModel> icons) {
         this.icons.addAll(icons);
         notifyItemRangeInserted(getItemCount(), icons.size());
     }
@@ -57,7 +57,7 @@ public class DishImageAdapter extends RecyclerView.Adapter<DishImageAdapter.View
             this.binding = binding;
         }
 
-        public void bind(Icon icon) {
+        public void bind(DishModel icon) {
             binding.setIcon(icon);
             binding.executePendingBindings();
         }

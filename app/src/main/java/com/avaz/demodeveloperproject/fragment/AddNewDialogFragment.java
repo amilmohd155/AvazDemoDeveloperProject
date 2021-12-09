@@ -21,6 +21,7 @@ import com.avaz.demodeveloperproject.databinding.FragmentAddNewDialogBinding;
 import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.model.Icon;
 import com.avaz.demodeveloperproject.model.ResponseModel;
+import com.avaz.demodeveloperproject.utility.DishAdapter;
 import com.avaz.demodeveloperproject.utility.DishImageAdapter;
 import com.avaz.demodeveloperproject.viewmodel.DishViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -39,7 +40,7 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
     private RecyclerView rvOptions;
     private TextInputLayout etOptions;
     private String term;
-    private DishImageAdapter adapter;
+    private DishAdapter adapter;
     private ArrayList<DishModel> defaultDishes;
 
     public AddNewDialogFragment() {
@@ -70,6 +71,7 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
         rvOptions = binding.rvOptions;
         etOptions = binding.etAddOption;
 
+        intiDefaultDishesValue();
         setupRVOptions();
         setupETOptions();
 
@@ -90,26 +92,31 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().trim().isEmpty() || s.toString().trim().length() < 3) {
-                    etOptions.setErrorEnabled(true);
-                    etOptions.setError(getResources().getString(R.string.error_length));
-                }
-                etOptions.setErrorEnabled(false);
-                term = etOptions.getEditText().getText().toString().trim();
+                if(s.toString().trim().length() >= 3) {
 
-                dishViewModel.getIconFromTerm(term);
+                    etOptions.setErrorEnabled(false);
+                    term = etOptions.getEditText().getText().toString().trim();
 
-                Log.d(TAG, "afterTextChanged: " + term);
+                    dishViewModel.getIconFromTerm(term);
 
-                dishViewModel.getError().observe(getViewLifecycleOwner(), error -> {
-                    Log.d(TAG, "afterTextChanged: error = " + error);
-                });
+                    Log.d(TAG, "afterTextChanged: " + term);
 
-                adapter.updateList(defaultDishes);
+                    dishViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+                        Log.d(TAG, "afterTextChanged: error = " + error);
+                    });
+
+                    adapter.updateDishList(defaultDishes);
 //                dishViewModel.getModel().observe(getViewLifecycleOwner(), responseModel ->  {
 //                    List<Icon> icons = responseModel.getIcons();
 //                    adapter.updateList(icons);
 //                });
+
+                }
+                else {
+                    etOptions.setErrorEnabled(true);
+                    etOptions.setError(getResources().getString(R.string.error_length));
+                }
+
             }
         });
 
@@ -119,7 +126,8 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
 
         Log.d(TAG, "setupRVOptions: " + term);
 
-        adapter = new DishImageAdapter();
+        adapter = new DishAdapter(true, true);
+        adapter.setSelectionMode(DishAdapter.SINGLE_SELECTION);
 
         rvOptions.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -132,7 +140,7 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
         defaultDishes = new ArrayList<>();
 
         defaultDishes.add(new DishModel(
-                        R.drawable.ic_dimsum,
+                R.drawable.ic_dimsum,
                         getContext().getResources().getString(R.string.dimsum)
                 )
         );

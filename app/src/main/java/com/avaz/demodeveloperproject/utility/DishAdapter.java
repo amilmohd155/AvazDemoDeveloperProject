@@ -9,22 +9,44 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.avaz.demodeveloperproject.databinding.LayoutDishItemBinding;
 import com.avaz.demodeveloperproject.model.DishModel;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
 
+    //selection modes
+    public static final int SINGLE_SELECTION = 1;
+    public static final int MULTI_SELECTION = 2;
+
     private ArrayList<DishModel> dishArrayList;
     private boolean isDefault;
     private boolean isFinalList;
+    private boolean isIconOnly;
+    ArrayList<DishModel> selected;
+
+
+    private int checkedPos = -1;
+    private int selectionMode;
+
 
     public DishAdapter() {
+        dishArrayList = new ArrayList<>();
+    }
+
+    public DishAdapter(boolean isDefault, boolean isIconOnly) {
+        this.isDefault = isDefault;
+        this.isIconOnly = isIconOnly;
         dishArrayList = new ArrayList<>();
     }
 
     public DishAdapter(boolean isDefault) {
         this.isDefault = isDefault;
         dishArrayList = new ArrayList<>();
+    }
+
+    public void setSelectionMode(int selectionMode) {
+        this.selectionMode = selectionMode;
     }
 
     @NonNull
@@ -37,7 +59,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.bind(dishArrayList.get(position),isDefault, isFinalList);
+        holder.bind(dishArrayList.get(position),isDefault, isFinalList, isIconOnly);
     }
 
     @Override
@@ -54,15 +76,25 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
         notifyItemRangeInserted(getItemCount(), dishModelList.size());
     }
 
-    public ArrayList<DishModel> getSelected() {
-        ArrayList<DishModel> selected = new ArrayList<>();
+    public ArrayList<DishModel> getSelectedList() {
+        if(selectionMode == MULTI_SELECTION) {
+            selected = new ArrayList<>();
 
-        for (int i = 0; i < dishArrayList.size(); ++i) {
-            if (dishArrayList.get(i).isChecked())
-                selected.add(dishArrayList.get(i));
-            else selected.remove(dishArrayList.get(i));
+            for (int i = 0; i < dishArrayList.size(); ++i) {
+                if (dishArrayList.get(i).isChecked())
+                    selected.add(dishArrayList.get(i));
+                else selected.remove(dishArrayList.get(i));
+            }
+            return selected;
         }
-        return selected;
+        return null;
+    }
+
+    public DishModel getSelectedItem() {
+        if (selectionMode == SINGLE_SELECTION)
+            if (checkedPos != -1)
+                return dishArrayList.get(checkedPos);
+            return null;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder{
@@ -73,19 +105,52 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
             this.binding = binding;
         }
 
-        public void bind(DishModel model, boolean isDefault, boolean isFinalList) {
+        public void bind(final DishModel model,
+                         final boolean isDefault,
+                         final boolean isFinalList,
+                         final boolean isIconOnly) {
 
-            binding.cvItem.setChecked(model.isChecked());
+            if (selectionMode == SINGLE_SELECTION) {            //Single Selection
+
+                if (checkedPos == -1) {
+                    binding.cvItem.setChecked(false);
+                    model.setChecked(false);
+                }
+                else {
+                    if (checkedPos == getAdapterPosition()) {
+                        binding.cvItem.setChecked(true);
+                        model.setChecked(true);
+                    } else {
+                        binding.cvItem.setChecked(false);
+                        model.setChecked(false);
+                    }
+                }
+
+                binding.cvItem.setOnClickListener(v -> {
+                    binding.cvItem.setChecked(true);
+                    model.setChecked(true);
+                    if (checkedPos != getAdapterPosition()) {
+                        notifyItemChanged(checkedPos);
+                        checkedPos = getAdapterPosition();
+                    }
+                });
+
+            }else  if(selectionMode == MULTI_SELECTION){        //Multi selection
+
+                binding.cvItem.setChecked(model.isChecked());
+
+                binding.cvItem.setOnClickListener(v -> {
+                    model.setChecked(!model.isChecked());
+                    binding.cvItem.setChecked(model.isChecked());
+                });
+
+            }
 
             binding.setIsDefault(isDefault);
             binding.setIsFinalList(isFinalList);
+            binding.setIsIconOnly(isIconOnly);
             binding.setModel(model);
             binding.executePendingBindings();
-
-            binding.cvItem.setOnClickListener(v -> {
-                model.setChecked(!model.isChecked());
-                binding.cvItem.setChecked(model.isChecked());
-            });
 
         }
 

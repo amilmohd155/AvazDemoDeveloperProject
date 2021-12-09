@@ -5,7 +5,7 @@
     <data>
         <variable
             name="icon"
-            type="com.avaz.demodeveloperproject.model.Icon" />
+            type="com.avaz.demodeveloperproject.model.DishModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            imageUrl="@{icon.iconUrl}"
+            imageUrl="@{icon.imageSource}"
             isDefault="@{false}"/>
 
     </com.google.android.material.card.MaterialCardView>

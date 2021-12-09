@@ -12,6 +12,9 @@
         <variable
             name="isFinalList"
             type="boolean" />
+        <variable
+            name="isIconOnly"
+            type="boolean" />
         <import type="android.view.View"/>
     </data>
 
@@ -47,6 +50,7 @@
 
         <TextView
             android:id="@+id/tv_item_name"
+            android:visibility="@{isIconOnly? View.GONE: View.VISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
