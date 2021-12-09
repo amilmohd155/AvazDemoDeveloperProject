@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txt_save"
+    <Button
+        android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -13,7 +13,8 @@
         android:text="@string/save"
         android:textSize="@dimen/heading2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/et_add_option"
@@ -28,7 +29,7 @@
         app:helperText="eg: Apple. Mango, Biriyani"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_save">
+        app:layout_constraintTop_toBottomOf="@+id/btn_save">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

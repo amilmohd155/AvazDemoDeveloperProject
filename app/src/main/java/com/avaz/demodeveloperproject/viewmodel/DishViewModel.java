@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.model.ResponseModel;
 import com.avaz.demodeveloperproject.repository.MainRepository;
 
@@ -17,12 +18,20 @@ public class DishViewModel extends ViewModel {
 
     private MutableLiveData<ResponseModel> model = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage =  new MutableLiveData<>();
+    private MutableLiveData<DishModel> dishModelMutable = new MutableLiveData<>();
     private MainRepository repository;
 
     public DishViewModel() {
-
         repository = MainRepository.getInstance();
+    }
 
+    public LiveData<DishModel> getDishModel() {
+        if (dishModelMutable == null) dishModelMutable = new MutableLiveData<>();
+        return dishModelMutable;
+    }
+
+    public void setMutableDishModel(DishModel model) {
+        dishModelMutable.setValue(model);
     }
 
     public void getIconFromTerm(String term) {

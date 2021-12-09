@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.avaz.demodeveloperproject.databinding.LayoutDishItemBinding;
 import com.avaz.demodeveloperproject.model.DishModel;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +19,17 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
     public static final int MULTI_SELECTION = 2;
 
     private ArrayList<DishModel> dishArrayList;
-    private boolean isDefault;
-    private boolean isFinalList;
-    private boolean isIconOnly;
     ArrayList<DishModel> selected;
+
+    private boolean isDefault;                  // to decide if the icons are local resources
+    private boolean isTextOnly;                 // to decide if the item view is text only
+    private boolean isIconOnly;                 // boolean to decide if the item view contains only icon
+
 
 
     private int checkedPos = -1;
-    private int selectionMode;
+
+    private int selectionMode;                  //Selection mode:: 1-> Single || 2 -> Multi
 
 
     public DishAdapter() {
@@ -59,7 +61,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.bind(dishArrayList.get(position),isDefault, isFinalList, isIconOnly);
+        holder.bind(dishArrayList.get(position),isDefault, isTextOnly, isIconOnly);
     }
 
     @Override
@@ -67,13 +69,18 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.Viewholder> {
         return dishArrayList.size();
     }
 
-    public void setFinalList(boolean finalList) {
-        isFinalList = finalList;
+    public void setTextOnly(boolean textOnly) {
+        isTextOnly = textOnly;
     }
 
     public void updateDishList(final List<DishModel> dishModelList) {
         this.dishArrayList.addAll(dishModelList);
         notifyItemRangeInserted(getItemCount(), dishModelList.size());
+    }
+
+    public void addDish(final DishModel model) {
+        dishArrayList.add(model);
+        notifyItemInserted(dishArrayList.size());
     }
 
     public ArrayList<DishModel> getSelectedList() {

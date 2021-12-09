@@ -3,15 +3,13 @@ package com.avaz.demodeveloperproject.fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,26 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.avaz.demodeveloperproject.R;
 import com.avaz.demodeveloperproject.databinding.FragmentAddNewDialogBinding;
 import com.avaz.demodeveloperproject.model.DishModel;
-import com.avaz.demodeveloperproject.model.Icon;
-import com.avaz.demodeveloperproject.model.ResponseModel;
 import com.avaz.demodeveloperproject.utility.DishAdapter;
-import com.avaz.demodeveloperproject.utility.DishImageAdapter;
 import com.avaz.demodeveloperproject.viewmodel.DishViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddNewDialogFragment extends BottomSheetDialogFragment {
 
     private static final String TAG = "AddNewDialogFragment";
 
-    private DishViewModel dishViewModel;
+    private DishViewModel viewModel;
 
     private FragmentAddNewDialogBinding binding;
     private RecyclerView rvOptions;
     private TextInputLayout etOptions;
+    private Button button;
     private String term;
     private DishAdapter adapter;
     private ArrayList<DishModel> defaultDishes;
@@ -55,7 +50,7 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         assert getParentFragment() != null;
-        dishViewModel = new ViewModelProvider(getParentFragment()).get(DishViewModel.class);
+        viewModel = new ViewModelProvider(getParentFragment()).get(DishViewModel.class);
 
         binding = FragmentAddNewDialogBinding.inflate(inflater, container, false);
 
@@ -66,14 +61,27 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.txtSave.setOnClickListener(v -> this.dismiss());
-
         rvOptions = binding.rvOptions;
         etOptions = binding.etAddOption;
+        button = binding.btnSave;
 
         intiDefaultDishesValue();
         setupRVOptions();
         setupETOptions();
+        setupBtnSave();
+
+    }
+
+    private void setupBtnSave() {
+
+        button.setOnClickListener(v -> {
+
+            if (adapter.getSelectedItem() != null) {
+                viewModel.setMutableDishModel(adapter.getSelectedItem());
+                this.dismiss();
+            }
+
+        });
 
     }
 
@@ -97,13 +105,11 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
                     etOptions.setErrorEnabled(false);
                     term = etOptions.getEditText().getText().toString().trim();
 
-                    dishViewModel.getIconFromTerm(term);
-
-                    Log.d(TAG, "afterTextChanged: " + term);
-
-                    dishViewModel.getError().observe(getViewLifecycleOwner(), error -> {
-                        Log.d(TAG, "afterTextChanged: error = " + error);
-                    });
+//                    dishViewModel.getIconFromTerm(term);
+//
+//                    dishViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+//
+//                    });
 
                     adapter.updateDishList(defaultDishes);
 //                dishViewModel.getModel().observe(getViewLifecycleOwner(), responseModel ->  {
@@ -124,8 +130,6 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
 
     private void setupRVOptions() {
 
-        Log.d(TAG, "setupRVOptions: " + term);
-
         adapter = new DishAdapter(true, true);
         adapter.setSelectionMode(DishAdapter.SINGLE_SELECTION);
 
@@ -135,6 +139,7 @@ public class AddNewDialogFragment extends BottomSheetDialogFragment {
 
     }
 
+    //Test Values till API Fix
     private void intiDefaultDishesValue() {
 
         defaultDishes = new ArrayList<>();

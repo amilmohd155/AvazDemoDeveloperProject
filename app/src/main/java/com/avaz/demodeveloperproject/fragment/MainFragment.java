@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ import com.avaz.demodeveloperproject.databinding.FragmentMainBinding;
 import com.avaz.demodeveloperproject.decorators.MarginItemDecorator;
 import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.utility.DishAdapter;
+import com.avaz.demodeveloperproject.viewmodel.DishViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -27,11 +30,16 @@ public class MainFragment extends Fragment {
 
     private FragmentMainBinding binding;
     private RecyclerView rvDefault, rvDynamic;
-    private ArrayList<DishModel> defaultDishes;
     private MaterialButton continueButton;
 
+    private ArrayList<DishModel> defaultDishes;
     private ArrayList<DishModel> selectedList;
+
     private DishAdapter defaultAdapter;
+    private DishAdapter extraAdapter;
+
+    private DishViewModel viewModel;
+
 
     public MainFragment() {
 
@@ -51,7 +59,9 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        viewModel = new ViewModelProvider(this).get(DishViewModel.class);
         binding = FragmentMainBinding.inflate(inflater, container, false);
+
         return binding.getRoot();
     }
 
@@ -60,23 +70,26 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rvDefault = binding.rvDefaultList;
+        rvDynamic = binding.rvDynamic;
         continueButton = binding.btnContinue;
         selectedList = new ArrayList<>();
 
         setupDefaultList();
         setupAddNewBtn();
+        setupAddedList();
 
 
         continueButton.setOnClickListener(v -> {
 
             selectedList.clear();
             selectedList.addAll(defaultAdapter.getSelectedList());
+            selectedList.addAll(extraAdapter.getSelectedList());
 
             if(selectedList.size() < 3 || selectedList.size() > 5) {
                 
                 //Error message
                 binding.tvError.setVisibility(View.VISIBLE);
-                binding.tvError.setText(getResources().getString(R.string.error_length));
+                binding.tvError.setText(getResources().getString(R.string.error_options));
                 
             }else {
                 //Next screen
@@ -85,10 +98,23 @@ public class MainFragment extends Fragment {
                         .replace(this.getId(), fragment)
                         .commit();
             }
-            
 
         });
 
+    }
+
+    private void setupAddedList() {
+
+        rvDynamic.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        extraAdapter = new DishAdapter(true); // Todo subject to change on api fix
+        extraAdapter.setSelectionMode(DishAdapter.MULTI_SELECTION);
+
+        viewModel.getDishModel().observe(getViewLifecycleOwner(), dishModel -> {
+            extraAdapter.addDish(dishModel);
+        });
+
+        rvDynamic.setAdapter(extraAdapter);
 
     }
 

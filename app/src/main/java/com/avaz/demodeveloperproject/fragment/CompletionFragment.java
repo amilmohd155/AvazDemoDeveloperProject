@@ -8,13 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.avaz.demodeveloperproject.R;
 import com.avaz.demodeveloperproject.databinding.FragmentCompletionBinding;
 import com.avaz.demodeveloperproject.model.DishModel;
 import com.avaz.demodeveloperproject.utility.DishAdapter;
@@ -68,7 +65,7 @@ public class CompletionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         DishAdapter adapter = new DishAdapter();
-        adapter.setFinalList(true);
+        adapter.setTextOnly(true);
 
         adapter.updateDishList(selectedList);
 

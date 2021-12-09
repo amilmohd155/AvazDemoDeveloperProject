@@ -20,9 +20,8 @@
     <string name="sushi">Sushi</string>
     <string name="save">Save</string>
     <string name="bottom_sheet_label">What do you want to add</string>
-    <string name="error_length">"Min of 3 words and max of 5 words "</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_length">"Min of 3 words and max of 10 words "</string>
+    <string name="error_options">Min of 3 options and max of 5 options</string>
     <string name="thank_you">Thank you for signing up</string>
     <string name="user_likes_to_eat">User likes to eat</string>
 
