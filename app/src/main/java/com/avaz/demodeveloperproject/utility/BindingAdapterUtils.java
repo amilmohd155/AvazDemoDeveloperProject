@@ -14,7 +14,6 @@ public class BindingAdapterUtils {
 
     @BindingAdapter(value = {"imageUrl", "drawableID", "isDefault"}, requireAll = false)
     public static void loadImage(ImageView view, String imageUrl, int drawableId, boolean isDefault) {
-        Log.d(TAG, "loadImage: " + isDefault);
        if(isDefault) {
            Glide.with(view.getContext())
                    .load(drawableId)

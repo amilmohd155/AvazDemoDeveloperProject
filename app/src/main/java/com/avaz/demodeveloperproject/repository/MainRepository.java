@@ -1,5 +1,7 @@
 package com.avaz.demodeveloperproject.repository;
 
+import android.util.Log;
+
 import com.avaz.demodeveloperproject.BuildConfig;
 import com.avaz.demodeveloperproject.model.ResponseModel;
 import com.avaz.demodeveloperproject.retrofit.RetrofitClient;
@@ -16,6 +18,8 @@ public class MainRepository {
 
     private static MainRepository repository;
 
+    private static final String TAG = "MainRepository";
+
     public static MainRepository getInstance() {
         if (repository == null) {
             repository = new MainRepository();
@@ -31,6 +35,8 @@ public class MainRepository {
 
     public Call<ResponseModel> getIcons(String term){
         Call<ResponseModel> call = client.getIcons(term, ServiceGenerator.getAuthToken());
+
+        Log.d(TAG, "getIcons: AuthToken " + ServiceGenerator.getAuthToken());
         return call;
     }
 }

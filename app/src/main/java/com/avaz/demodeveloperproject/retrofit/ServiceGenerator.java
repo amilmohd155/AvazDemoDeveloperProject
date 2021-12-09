@@ -1,9 +1,16 @@
 package com.avaz.demodeveloperproject.retrofit;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.avaz.demodeveloperproject.BuildConfig;
 import com.avaz.demodeveloperproject.utility.AuthenticationInterceptor;
+import com.avaz.demodeveloperproject.utility.NounProjectAPI;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.builder.api.DefaultApi10a;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuthService;
 
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
@@ -11,6 +18,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
+
+
+    private static final String TAG = "Service Generator";
 
     private static final String BASE_URL = BuildConfig.NOUN_PROJECT_BASE_API_URL;
 
@@ -31,6 +41,12 @@ public class ServiceGenerator {
 
     public static <S> S createService(
             Class<S> serviceClass, String clientID, String clientSecret) {
+
+        OAuthService service = new ServiceBuilder(clientID)
+                .apiSecret(clientSecret)
+                .build(NounProjectAPI.getInstance());
+
+//        OAuthRequest request = new OAuthRequest(Verb.GET, "")
 
         if (!TextUtils.isEmpty(clientID)
                 && !TextUtils.isEmpty(clientSecret)) {
@@ -60,4 +76,5 @@ public class ServiceGenerator {
     public static String getAuthToken() {
         return authToken;
     }
+
 }
