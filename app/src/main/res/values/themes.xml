@@ -16,5 +16,22 @@
         <item name="android:scrollbars">none</item>
         <item name="android:overScrollMode">never</item>
 
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Avaz.BottomSheetDialog</item>
+
     </style>
+    
+    <style name="ThemeOverlay.Avaz.BottomSheetDialog"
+        parent="@style/Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Avaz.BottomSheet</item>
+    </style>
+    
+    <style name="Widget.Avaz.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Avaz</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Avaz" parent="">
+        <item name="cornerSize">10dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+    
 </resources>
